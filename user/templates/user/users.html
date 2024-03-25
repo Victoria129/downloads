@@ -1,0 +1,172 @@
+{% extends 'user/home.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-success alert-dismissible fade show successfull" role="alert">
+        <strong>Success:</strong> User added to access list.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="alert alert-danger super-danger" role="alert">
+        This is a danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+      </div>
+    <!-- Success notification -->
+    {% if success_message %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ success_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+
+    <!-- Error notification -->
+    {% if error_message %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ error_message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+
+    <h2 class="mb-4">User Management</h2>
+
+    <!-- Button trigger modal for adding a new user -->
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addUserModal">
+        Add New User
+    </button>
+
+    <!-- Table to display users -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterate through users and display them -->
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <!-- Button to delete a user -->
+                    <button class="btn btn-danger btn-sm" onclick="deleteUser('{{ user.id }}')">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal for adding a new user -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for adding a new user -->
+                <form id="addUserForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="addUserButton">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        Add User
+                    </button>                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Function to handle form submission for adding a new user
+$('#addUserForm').submit(function(event) {
+    event.preventDefault();
+    
+    // Disable the button to prevent multiple submissions
+    $('#addUserButton').prop('disabled', true);
+    
+    // Show the spinner
+    $('#addUserButton .spinner-border').removeClass('d-none');
+    
+    // Get form data
+    var formData = $(this).serialize();
+
+    // Send AJAX request to create a new user
+    $.ajax({
+        type: 'POST',
+        url: '{% url "add_user" %}', // Replace with your Django URL for adding a new user
+        data: formData,
+        success: function(response) {
+            // Show success notification
+            $('.successfull').addClass('show');
+            setTimeout(function() {
+                $('.successfull').removeClass('show');
+            }, 3000);
+
+            // Reload the page to update the user list
+            location.reload();
+        },
+        error: function(xhr, status, error) {
+            // Show error notification
+            $('.super-danger').addClass('show');
+            setTimeout(function() {
+                $('.super-danger').removeClass('show');
+            }, 3000);
+        },
+        complete: function() {
+            // Enable the button
+            $('#addUserButton').prop('disabled', false);
+            
+            // Hide the spinner
+            $('#addUserButton .spinner-border').addClass('d-none');
+        }
+    });
+});
+
+// Function to handle deletion of a user
+function deleteUser(userId) {
+    // Send AJAX request to delete the user
+    $.ajax({
+        type: 'POST',
+        url: '{% url "delete_user" %}', // Replace with your Django URL for deleting a user
+        data: {
+            'user_id': userId
+        },
+        success: function(response) {
+            // Show success notification
+         
+        },
+        error: function(xhr, status, error) {
+            // Show error notification
+            $('.successfull').addClass('show');
+            setTimeout(function() {
+                $('.successfull').removeClass('show');
+            }, 3000);
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'user/home.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        text-align: center;
+    }
+
+    .download-btn {
+        background-color: #007bff;
+        color: #fff;
+        font-size: 18px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container">
+    <button class="download-btn" onclick="downloadFile()">Download File</button>
+</div>
+
+<script>
+function downloadFile() {
+    // Call the endpoint to download the file
+    window.location.href = "{% url 'download_file' %}";
+}
+</script>
+{% endblock %}
