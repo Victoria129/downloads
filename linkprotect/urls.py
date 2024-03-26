@@ -16,13 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from user.views import home,addUser,getLink
+from user.views import get_logs,get_user_logs,revoke_user_superuser,home,addUser,getLink,download_file,login_view, logout_view,delete_user,make_user_superuser
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', getLink,name="home"),
     path('/users', home,name="users"),
     path('add/', addUser,name="add_user"),
-    path('delete/', addUser,name="delete_user"),
-    path('download/', getLink,name="download_file"),
+    path('delete/<int:user_id>', delete_user,name="delete_user"),
+    path('download/', download_file,name="download_file"),
+    path('accounts/login/', login_view, name='login'),
+    path('super/<int:user_id>', make_user_superuser, name='super'),
+    path('revoke/<int:user_id>', revoke_user_superuser, name='revoke'),
+    path('logout/', logout_view, name='logout'),
+    path('logs/', get_logs, name='logs'),
+    path('loggers/<int:user_id>', get_user_logs, name='logs_id'),
+    
+
 ]

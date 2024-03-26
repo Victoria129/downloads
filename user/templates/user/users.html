@@ -2,16 +2,12 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="alert alert-success alert-dismissible fade show successfull" role="alert">
+    <div class="alert alert-success alert-dismissible fade successfull" role="alert">
         <strong>Success:</strong> User added to access list.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="alert alert-danger super-danger" role="alert">
-        This is a danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-      </div>
-    <!-- Success notification -->
     {% if success_message %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ success_message }}
@@ -31,7 +27,7 @@
     </div>
     {% endif %}
 
-    <h2 class="mb-4">User Management</h2>
+    <h2 class="mb-4">Access Control</h2>
 
     <!-- Button trigger modal for adding a new user -->
     <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addUserModal">
@@ -44,6 +40,9 @@
             <tr>
                 <th>Username</th>
                 <th>Email</th>
+                <th>filename</th>
+                <th>Clicked</th>
+                <th>admin</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -51,14 +50,37 @@
             <!-- Iterate through users and display them -->
             {% for user in users %}
             <tr>
-                <td>{{ user.username }}</td>
+                <td><a href="{% url 'logs_id' user.id %}">{{ user.username }}</a></td>
                 <td>{{ user.email }}</td>
+                <td>{{ user.filename }}</td>
                 <td>
-                    <!-- Button to delete a user -->
-                    <button class="btn btn-danger btn-sm" onclick="deleteUser('{{ user.id }}')">Delete</button>
+                    {% if user.is_superuser %}
+                    <span class="badge badge-success">Yes</span>
+                    {% else %}
+                    <span class="badge badge-secondary">No</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.check_clicks > 0 %}
+                    <span class="badge badge-success">Clicked</span>
+                    {% else %}
+                    <span class="badge badge-secondary">Waiting</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="btncontainer">
+                    <div>
+                    {% if user.is_superuser %}
+                    <a class="btn btn-success btn-sm" href="{% url 'revoke' user.id %}">Revoke admin</a>
+                    {% else %}
+                    <a class="btn btn-success btn-sm" href="{% url 'super' user.id %}">Make admin</a>
+                    {% endif %}
+                    </div>
+                    <a class="btn btn-danger btn-sm" href="{% url 'delete_user' user.id %}">Delete</a>
+                  </div>
                 </td>
             </tr>
-            {% endfor %}
+            {% endfor %} 
         </tbody>
     </table>
 </div>
@@ -97,7 +119,13 @@
         </div>
     </div>
 </div>
-
+<style>
+    .btncontainer{
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+    }
+</style>
 <script>
 // Function to handle form submission for adding a new user
 $('#addUserForm').submit(function(event) {
@@ -122,17 +150,18 @@ $('#addUserForm').submit(function(event) {
             $('.successfull').addClass('show');
             setTimeout(function() {
                 $('.successfull').removeClass('show');
-            }, 3000);
+                location.reload();
+            }, 2000);
 
             // Reload the page to update the user list
-            location.reload();
+            
         },
         error: function(xhr, status, error) {
             // Show error notification
             $('.super-danger').addClass('show');
             setTimeout(function() {
                 $('.super-danger').removeClass('show');
-            }, 3000);
+            }, 1000);
         },
         complete: function() {
             // Enable the button
@@ -144,29 +173,6 @@ $('#addUserForm').submit(function(event) {
     });
 });
 
-// Function to handle deletion of a user
-function deleteUser(userId) {
-    // Send AJAX request to delete the user
-    $.ajax({
-        type: 'POST',
-        url: '{% url "delete_user" %}', // Replace with your Django URL for deleting a user
-        data: {
-            'user_id': userId
-        },
-        success: function(response) {
-            // Show success notification
-         
-        },
-        error: function(xhr, status, error) {
-            // Show error notification
-            $('.successfull').addClass('show');
-            setTimeout(function() {
-                $('.successfull').removeClass('show');
-            }, 3000);
-            console.error(xhr.responseText);
-        }
-    });
-}
 
 </script>
 {% endblock %}
