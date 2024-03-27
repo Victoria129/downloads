@@ -15,11 +15,10 @@
     .download-btn {
         background-color: #007bff;
         color: #fff;
-        font-size: 18px;
-        width: 60%;
-        height: 60px;   
-
-        padding: 10px 20px;
+        font-size: 14px; /* Further decreased font size */
+        width: 40%; /* Further decreased width */
+        height: 40px; /* Further decreased height */
+        padding: 5px 10px; /* Further decreased padding */
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -32,13 +31,24 @@
 </style>
 
 <div class="container">
-    <button class="download-btn" onclick="downloadFile()">Download csv file</button>
+    <h4>Click the button to generate csv file</h4>
+    <button class="download-btn" onclick="downloadFile()" id="downloadBtn">Download csv file</button>
 </div>
 
 <script>
 function downloadFile() {
+    // Change button text to indicate that download is in progress
+    document.getElementById("downloadBtn").innerText = "Downloading...";
+    // Disable the button to prevent multiple clicks
+    document.getElementById("downloadBtn").disabled = true;
     // Call the endpoint to download the file
     window.location.href = "{% url 'download_file' %}";
+    setTimeout(function(){
+        // Restore button text after 3 seconds
+        document.getElementById("downloadBtn").innerText = "Download csv file";
+        // Re-enable the button
+        document.getElementById("downloadBtn").disabled = false;
+    }, 3000);
 }
 </script>
 {% endblock %}
