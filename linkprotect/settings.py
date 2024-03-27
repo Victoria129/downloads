@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-database_url = 'psql "postgres://default:xMbJsyOT2K7n@ep-calm-sea-53969897.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"'
+database_url = 'postgresql://LDouglasOT:ztRVYLvsZ7Q5@ep-wild-bush-74229860.us-east-2.aws.neon.tech/downloads?sslmode=require'
 DATABASES['default']=dj_database_url.parse("postgres://twinbrook_twtf_user:JWhhuBRdiLByCqByZkjA2jaNutoCsRTw@dpg-cl0teu0p2gis73a1t0r0-a.oregon-postgres.render.com/twinbrook_twtf")
 
 
