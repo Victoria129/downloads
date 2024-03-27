@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,13 +79,15 @@ WSGI_APPLICATION = 'linkprotect.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+database_url = 'psql "postgres://default:xMbJsyOT2K7n@ep-calm-sea-53969897.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"'
+DATABASES['default']=dj_database_url.parse("postgres://twinbrook_twtf_user:JWhhuBRdiLByCqByZkjA2jaNutoCsRTw@dpg-cl0teu0p2gis73a1t0r0-a.oregon-postgres.render.com/twinbrook_twtf")
+
 
 
 # Password validation
