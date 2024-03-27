@@ -86,7 +86,7 @@ DATABASES = {
     }
 }
 database_url = 'postgresql://LDouglasOT:ztRVYLvsZ7Q5@ep-wild-bush-74229860.us-east-2.aws.neon.tech/downloads?sslmode=require'
-DATABASES['default']=dj_database_url.parse("postgres://twinbrook_twtf_user:JWhhuBRdiLByCqByZkjA2jaNutoCsRTw@dpg-cl0teu0p2gis73a1t0r0-a.oregon-postgres.render.com/twinbrook_twtf")
+DATABASES['default']=dj_database_url.parse("postgresql://LDouglasOT:ztRVYLvsZ7Q5@ep-wild-bush-74229860.us-east-2.aws.neon.tech/downloads?sslmode=require")
 
 
 
