@@ -41,9 +41,9 @@
                 <th>Username</th>
                 <th>Email</th>
                 <th>filename</th>
-                <th>Clicked</th>
-                <th>admin</th>
-                <th>Actions</th>
+                <th>
+                <div class="actionsclass">Actions</div>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -54,28 +54,15 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.filename }}</td>
                 <td>
-                    {% if user.is_superuser %}
-                    <span class="badge badge-success">Yes</span>
-                    {% else %}
-                    <span class="badge badge-secondary">No</span>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if user.check_clicks > 0 %}
-                    <span class="badge badge-success">Clicked</span>
-                    {% else %}
-                    <span class="badge badge-secondary">Waiting</span>
-                    {% endif %}
-                </td>
-                <td>
                     <div class="btncontainer">
-                    <div>
-                    {% if user.is_superuser %}
-                    <a class="btn btn-success btn-sm" href="{% url 'revoke' user.id %}">Revoke admin</a>
-                    {% else %}
-                    <a class="btn btn-success btn-sm" href="{% url 'super' user.id %}">Make admin</a>
-                    {% endif %}
-                    </div>
+                        <div>
+                            {% if user.is_superuser %}
+                            <a class="btn btn-success btn-sm fixed-width-btn wellstyled" href="{% url 'revoke' user.id %}">Revoke admin</a>
+                            {% else %}
+                            <a class="btn btn-success btn-sm fixed-width-btn wellstyled" href="{% url 'super' user.id %}">Make admin</a>
+                            {% endif %}
+                        </div>
+                        
                     <a class="btn btn-danger btn-sm" href="{% url 'delete_user' user.id %}">Delete</a>
                   </div>
                 </td>
@@ -124,6 +111,12 @@
         display: flex;
         justify-content: space-between;
         padding: 0 10px;
+    }
+    .wellstyled{
+        width: 130px;
+    }
+    .actionsclass{
+        margin-left: 10px;
     }
 </style>
 <script>
