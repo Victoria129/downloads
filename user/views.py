@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404
 @login_required
 def download_file(request):
     print("fetching this file now")
-    file_url = "https://docuware.fileit.org/DownloadCustomBundleFile.aspx"
+    file_url = "https://docuware.fileit.org/DownloadBundledFile.aspx"
     response = requests.get(file_url)
     content_disposition_header = response.headers.get('Content-Disposition')
     if content_disposition_header:
