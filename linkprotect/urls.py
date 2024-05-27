@@ -31,6 +31,4 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('logs/', get_logs, name='logs'),
     path('loggers/<int:user_id>', get_user_logs, name='logs_id'),
-    
-
 ]
