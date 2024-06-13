@@ -85,8 +85,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-database_url = 'postgresql://LDouglasOT:ztRVYLvsZ7Q5@ep-wild-bush-74229860.us-east-2.aws.neon.tech/downloads?sslmode=require'
-DATABASES['default']=dj_database_url.parse("postgresql://LDouglasOT:ztRVYLvsZ7Q5@ep-wild-bush-74229860.us-east-2.aws.neon.tech/downloads?sslmode=require")
+# database_url = 'postgresql://LDouglasOT:ztRVYLvsZ7Q5@ep-wild-bush-74229860.us-east-2.aws.neon.tech/downloads?sslmode=require'
+# DATABASES['default']=dj_database_url.parse("postgresql://LDouglasOT:ztRVYLvsZ7Q5@ep-wild-bush-74229860.us-east-2.aws.neon.tech/downloads?sslmode=require")
 
 
 
