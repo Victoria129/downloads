@@ -32,6 +32,7 @@
               {% if request.user.is_superuser %}
               <a class="nav-link" href="{% url 'users' %}">Users</a>
               <a class="nav-link" href="{% url 'logs' %}">Logs</a>
+              <a class="nav-link" href="{% url 'https://docuware.fileit.org/exports' %}">Downloaded Files</a>
               {% endif %}
               <a class="nav-link danger" href="{% url 'logout' %}">Logout</a>
               
